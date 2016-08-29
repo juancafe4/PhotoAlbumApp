@@ -1,0 +1,6 @@
+mern-todo@1.0.0 /Users/MASTER/code/test5
+├─┬ react@15.3.1 
+│ ├── fbjs@0.8.4 
+│ └── object-assign@4.1.0 
+└── react-dom@15.3.1 
+
