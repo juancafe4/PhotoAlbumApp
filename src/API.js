@@ -36,6 +36,13 @@ const API = {
       .then(res => res.data)
       .then(album => ServerActions.getAlbum(album))
       .catch(console.error)
+  },
+
+  getPhoto(id) {
+    axios.get(`/api/photos/${id}`)
+      .then(res => res.data)
+      .then(photo => ServerActions.getPhoto(photo))
+      .catch(console.error)
   }
 }
 export default API;

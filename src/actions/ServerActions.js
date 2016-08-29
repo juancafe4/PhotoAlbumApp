@@ -20,6 +20,13 @@ let ServerActions = {
       type: 'RECEIVE_ALBUM',
       album
     })
+  },
+
+  getPhoto(photo) {
+    AppDispatcher.dispatch({
+      type: 'RECEIVE_PHOTO',
+      photo
+    })
   }
 }
 

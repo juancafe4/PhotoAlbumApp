@@ -17,7 +17,6 @@ class DisplayAlbum extends React.Component {
     }
 
     componentDidMount() {
-      console.log(AlbumActions)
       AlbumActions.getAlbum(this.props.params.id);
       AlbumStore.startListening(this._onChange);
     }
