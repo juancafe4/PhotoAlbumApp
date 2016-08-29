@@ -16,9 +16,8 @@ render(
     <Route path='/' component={App}>
       <IndexRoute component={ShowAllAlbums}/>
       <Route path='/album/:id' component={DisplayAlbum}>
-        <Route path='/photo/:id' component={DisplayPhoto}></Route>
       </Route>
-
+      <Route path='/photo/:id' component={DisplayPhoto}></Route>
     </Route>
   </Router>
 ),

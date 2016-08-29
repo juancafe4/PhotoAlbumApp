@@ -12,14 +12,12 @@ class ShowAllAlbums extends React.Component {
         this.state = {
           albums: AlbumStore.getAlbums()
         }
-        console.log(AlbumActions)
         this.displayName = 'ShowAllAlbums';
 
         this._onChange = this._onChange.bind(this);
     }
 
     componentDidMount() {
-      console.log('mounting')
       AlbumActions.getAlbums();
       AlbumStore.startListening(this._onChange);
     }

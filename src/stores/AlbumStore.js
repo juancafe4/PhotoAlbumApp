@@ -2,6 +2,8 @@ import {EventEmitter} from 'events';
 import AppDispatcher from '../AppDispatcher';
 
 let _albums = null;
+let _album = null;
+
 class AlbumStore extends EventEmitter {
   constructor() {
     super();
@@ -14,6 +16,10 @@ class AlbumStore extends EventEmitter {
           break;
         case 'RECEIVE_ONE_ALBUM':
           _albums.push(action.album);
+          this.emit('CHANGE');
+          break;
+        case "RECEIVE_ALBUM":
+          _album = action.album;
           this.emit('CHANGE');
           break;
       }
@@ -31,6 +37,10 @@ class AlbumStore extends EventEmitter {
 
   getAlbums() {
     return _albums;
+  }
+
+  getAlbum() {
+    return _album;
   }
 }
 

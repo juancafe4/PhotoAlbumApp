@@ -13,6 +13,13 @@ let ServerActions = {
       type: 'RECEIVE_ONE_ALBUM',
       album
     })
+  },
+
+  getAlbum(album) {
+    AppDispatcher.dispatch({
+      type: 'RECEIVE_ALBUM',
+      album
+    })
   }
 }
 

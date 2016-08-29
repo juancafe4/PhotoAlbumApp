@@ -17,6 +17,25 @@ const API = {
         ServerActions.createAlbum(album)
       })
       .catch(console.error)
+  },
+
+  addPhoto(id, photo) {
+    console.log(photo)
+    axios.post('/api/photos', photo)
+      .then(res => res.data)
+      .then(photo => axios.put(`/api/albums/${id}/addPhoto/${photo._id}`))
+      .then(res => res.data)
+      .then(album => axios.get(`/api/albums/${id}`))
+      .then(res => res.data)
+      .then(album => ServerActions.getAlbum(album))
+      .catch(console.error)
+  },
+
+  getAlbum(id) {
+    axios.get(`/api/albums/${id}`)
+      .then(res => res.data)
+      .then(album => ServerActions.getAlbum(album))
+      .catch(console.error)
   }
 }
 export default API;

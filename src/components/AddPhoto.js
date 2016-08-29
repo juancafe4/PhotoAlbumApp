@@ -13,17 +13,17 @@ class AddPhoto extends React.Component {
         }
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
-        this.addAlbum = this.addAlbum.bind(this);
+        this.addPhoto = this.addPhoto.bind(this);
 
         this.changeName = this.changeName.bind(this);
-        this.changeUrl = this.changeUrl.bund(this);
+        this.changeURL = this.changeURL.bind(this);
     }
 
     changeName(e){
       this.setState({name: e.target.value})
     }
 
-    changeName(e){
+    changeURL(e){
       this.setState({url: e.target.value})
     }
     close() {
@@ -33,10 +33,10 @@ class AddPhoto extends React.Component {
     open() {
       this.setState({ showModal: true });
     }
-    addAlbum() {
+    addPhoto() {
       let {name, url} = this.state
       if (name, url) {
-        //AlbumActions.createAlbum({name})
+        AlbumActions.addPhoto(this.props.id, {name ,url})
         this.setState({
           name: '',
           url: ''
@@ -60,7 +60,10 @@ class AddPhoto extends React.Component {
                 <FormGroup>
                   <FormControl onChange={this.changeName} value={this.state.name} type="text" placeholder="Name" />
                 </FormGroup>
-                <Button onClick={this.addAlbum}type="submit">Submit</Button>
+                <FormGroup>
+                  <FormControl onChange={this.changeURL} value={this.state.url} type="text" placeholder="url" />
+                </FormGroup>
+                <Button onClick={this.addPhoto}type="submit">Submit</Button>
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={this.close}>Close</Button>
@@ -71,4 +74,4 @@ class AddPhoto extends React.Component {
     }
 }
 
-export default AddAlbum;
+export default AddPhoto;
