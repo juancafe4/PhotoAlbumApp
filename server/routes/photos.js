@@ -1,7 +1,26 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
 
 const Photo = require('../models/Photo');
+const multer = require('multer');
+const upload = multer({storage: multer.memoryStorage()});
+
+router.post('/', upload.single('image'), (req, res) => {
+  let filePath = path.join(__dirname, '../../otter4.jpg');
+  let filename= 'otter4.jpg'
+
+    console.log('req.file ', req.file)
+    Photo.upload(req.file, (err, image) => {
+      //1.Upload the data to s3
+      //2. To determine the url of the image on S3
+      //3. We can save an image document, with the url (and fileName)
+      //4 Callback with saved image doc.
+      res.status(err ? 400 : 200).send(err || image)
+    })
+});
+
 
 router.route('/')
 .get((req, res) => {
@@ -9,11 +28,11 @@ router.route('/')
     res.status(err ? 400 : 200). send(err || photos)
   })
 })
-.post((req, res) => {
-  Photo.create(req.body, (err, newPhoto) => {
-    res.status(err ? 400 : 200).send(err || newPhoto);
-  });
-})
+// .post((req, res) => {
+//   Photo.create(req.body, (err, newPhoto) => {
+//     res.status(err ? 400 : 200).send(err || newPhoto);
+//   });
+// })
 router.route('/:id')
 .get((req, res) => {
   Photo.findById(req.params.id, (err, photos) => {
