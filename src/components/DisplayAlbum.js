@@ -30,7 +30,9 @@ class DisplayAlbum extends React.Component {
       this.setState({album: album})
     }
     render() {
+
         if (this.state.album) {
+          console.log('photos ', this.state.album.photos)
           let {photos} = this.state.album
           let thumbnails = photos.map(photo => {
             return (

@@ -10,7 +10,7 @@ const PhotoSchema = new mongoose.Schema({
   date: {type: Date, default: Date.now}
 });
 const path = require('path')
-PhotoSchema.statics.upload = function(fileObj, cb) {
+PhotoSchema.statics.upload = function(fileObj, name, cb) {
   //1.Upload the data to s3
   //2. To determine the url of the image on S3
   //3. We can save an image document, with the url (and fileName)
@@ -31,9 +31,22 @@ PhotoSchema.statics.upload = function(fileObj, cb) {
   s3.putObject(params, (err, result) => {
     if (err) return cb(err);
     let url = `${AWS_URL_BASE}/${BUCKET_NAME}/${Key}`    
-    this.create( {name: originalname, url}, cb)
+    this.create( {name: name, url}, cb)
   });
 };
+
+PhotoSchema.statics.deleteLink = function(url, cb) {
+  let Key = url.split('/')[5];
+  let params = {
+    Bucket: BUCKET_NAME,
+    Key
+  }
+
+  s3.deleteObject(params, (err, data) => {
+    if (err) cb(err)  // error
+    else  cb(null, data)// deleted
+  });
+}
 const Photo = mongoose.model('Photo', PhotoSchema);
 
 module.exports = Photo;

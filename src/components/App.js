@@ -11,11 +11,12 @@ export default class App extends Component {
 
     data.append('image', file);
 
-    axios.post('/api/photos', data)
-      .then(res => {
-        console.log(res)
-      })
-      .catch(console.error)
+    console.log('App data', data)
+    // axios.post('/api/photos', data)
+    //   .then(res => {
+    //     console.log(res)
+    //   })
+    //   .catch(console.error)
   }
   render() {
     return (

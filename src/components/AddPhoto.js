@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Modal, FormGroup, FormControl} from 'react-bootstrap';
+import {Image, Button, Modal, FormGroup, FormControl} from 'react-bootstrap';
 import AlbumActions from '../actions/AlbumActions'
 
 class AddPhoto extends React.Component {
@@ -9,7 +9,9 @@ class AddPhoto extends React.Component {
         this.state = {
           showModal: false, 
           name: '',
-          url: ''
+          url: '',
+          file: '',
+          imagePreviewUrl: ''
         }
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
@@ -17,6 +19,8 @@ class AddPhoto extends React.Component {
 
         this.changeName = this.changeName.bind(this);
         this.changeURL = this.changeURL.bind(this);
+
+        this.onChnageFile = this.onChnageFile.bind(this)
     }
 
     changeName(e){
@@ -26,28 +30,55 @@ class AddPhoto extends React.Component {
     changeURL(e){
       this.setState({url: e.target.value})
     }
+
+    onChnageFile(e) {
+      let reader = new FileReader();
+      let file = e.target.files[0];
+
+      reader.onloadend = () => {
+        this.setState({file: file, imagePreviewUrl: reader.result});
+
+      }
+      reader.readAsDataURL(file);
+    }
     close() {
-    this.setState({ showModal: false });
+    this.setState({ showModal: false, name: '',
+          url: '',
+          file: '',
+          imagePreviewUrl: ''
+        });
     }
 
     open() {
       this.setState({ showModal: true });
     }
     addPhoto() {
-      let {name, url} = this.state
-      if (name, url) {
-        AlbumActions.addPhoto(this.props.id, {name ,url})
+      let {name, url, file} = this.state
+      if (name) {
+        if (url)
+          AlbumActions.addPhoto(this.props.id, {name ,url})
+        if (file) {
+            let data = new FormData();
+            data.append('image', file);
+            data.append('name', name)
+          AlbumActions.addPhoto(this.props.id, data)
+        }
         this.setState({
           name: '',
-          url: ''
+          url: '',
+          file: ''
         });
         this.close();
       }
     }
+
     render() {
         let btnStyle = {
           float: 'right'
         };
+
+        let {imagePreviewUrl, url} = this.state
+        let ImageURL = imagePreviewUrl && <Image responsive={true} src={imagePreviewUrl} />  || url && <Image responsive={true} src={url} />
         return (
           <div>
             <Button bsStyle="primary" style={btnStyle} onClick={this.open}>+</Button>
@@ -62,12 +93,18 @@ class AddPhoto extends React.Component {
                 </FormGroup>
                 <FormGroup>
                   <FormControl onChange={this.changeURL} value={this.state.url} type="text" placeholder="url" />
+                  <div><h4>Or</h4></div>
+                  <FormControl onChange={this.onChnageFile} type="file" placeholder="Upload Image" />
                 </FormGroup>
                 <Button onClick={this.addPhoto}type="submit">Submit</Button>
+
+                {ImageURL}
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={this.close}>Close</Button>
               </Modal.Footer>
+
+
             </Modal>
           </div>
         )
