@@ -33,6 +33,7 @@ router.route('/')
     res.status(err ? 400 : 200). send(err || photos)
   })
 })
+
 // .post((req, res) => {
 //   Photo.create(req.body, (err, newPhoto) => {
 //     res.status(err ? 400 : 200).send(err || newPhoto);
@@ -44,15 +45,17 @@ router.route('/:id')
     res.status(err ? 400 : 200).send(err || photos);
   });
 })
-.delete((req, res) => {
+.delete(Photo.RemoveMiddleware, (req, res) => {
+
   Photo.findById(req.params.id, (err, photo) => {
     if (err || !photo) return res.status(400).send(err || "Photo not found")
+   
     if (photo.url.match('s3')) {
-      // Photo.deleteLink(photo.url, (err, data) => {
-
-      // })
-      Photo.findByIdAndRemove(req.params.id, err => {
-        res.status(err ? 400 : 200).send(err);
+      Photo.deleteLink(photo.url, (err, data) => {
+        if (err) res.status(400).send(err);
+        Photo.findByIdAndRemove(req.params.id, err => {
+          res.status(err ? 400 : 200).send(err);
+        })
       })
     }
     else {

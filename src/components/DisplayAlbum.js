@@ -52,6 +52,7 @@ class DisplayAlbum extends React.Component {
           return (
             <div>
               <AddPhoto id={this.props.params.id}/> 
+              <br/> <br/> <br/>
               {thumbnails}
             </div>
           )
