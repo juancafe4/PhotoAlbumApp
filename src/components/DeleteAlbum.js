@@ -1,5 +1,7 @@
 import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
+import AlbumActions from '../actions/AlbumActions';
+
 class DeleteAlbum extends React.Component {
     constructor(props) {
         super(props);
@@ -10,6 +12,7 @@ class DeleteAlbum extends React.Component {
         }
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.deleteAlbum = this.deleteAlbum.bind(this);
     }
     close() {
     this.setState({ showModal: false });
@@ -18,8 +21,10 @@ class DeleteAlbum extends React.Component {
     open() {
       this.setState({ showModal: true });
     }
+    deleteAlbum() {
+      AlbumActions.deleteAlbum(this.props.id)
+    }
     render() {
-      console.log('here')
       return (
        <div>
           <Button bsStyle="danger" onClick={this.open}>Delete Album</Button>
@@ -31,7 +36,7 @@ class DeleteAlbum extends React.Component {
                 <p>All your photos will be deleted. Are you sure?</p>
               </Modal.Body>
               <Modal.Footer>
-                <Button bsStyle="danger">Delete Album</Button>
+                <Button onClick={this.deleteAlbum}bsStyle="danger">Delete Album</Button>
                 <Button onClick={this.close}>Close</Button>
               </Modal.Footer>
             </Modal>

@@ -44,11 +44,17 @@ const API = {
       .then(photo => ServerActions.getPhoto(photo))
       .catch(console.error)
   },
-  removePhoto(id, albumId) {
+  removePhoto(id) {
     axios.delete(`/api/photos/${id}`)
-      .then(() => axios.get(`/api/albums/${albumId}`))
+      .then(res => ServerActions.updatePhotos(id))
+      .catch(console.error)
+  },
+  deleteAlbum(id) {
+    console.log('API calling... ', id)
+    axios.delete(`/api/albums/${id}`)
+      .then (() => axios.get('/api/albums'))
       .then(res => res.data)
-      .then(album => ServerActions.getAlbum(album))
+      .then(albums => ServerActions.getAlbums(albums))
       .catch(console.error)
   }
 }

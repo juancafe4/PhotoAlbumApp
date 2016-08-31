@@ -27,6 +27,13 @@ let ServerActions = {
       type: 'RECEIVE_PHOTO',
       photo
     })
+  },
+
+  updatePhotos(id) {
+    AppDispatcher.dispatch({
+      type: 'UPDATE_PHOTO',
+      id
+    })
   }
 }
 

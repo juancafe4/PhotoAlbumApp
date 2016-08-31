@@ -34,7 +34,7 @@ class DisplayAlbum extends React.Component {
     }
 
     deletePhoto(id) {
-      PhotoActions.removePhoto(id, this.state.album._id);
+      PhotoActions.removePhoto(id);
     }
     render() {
 

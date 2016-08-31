@@ -37,7 +37,7 @@ class ShowAllAlbums extends React.Component {
         if (albums) {
           let list = albums.map((album, index)=> {
             return (<div key={album._id}> <Link to={`album/${album._id}`}>{album.name}</Link> 
-                  <DeleteAlbum />
+                  <DeleteAlbum id={album._id}/>
             <br/> </div>);
 
           })

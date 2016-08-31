@@ -22,6 +22,12 @@ class AlbumStore extends EventEmitter {
           _album = action.album;
           this.emit('CHANGE');
           break;
+        case 'UPDATE_PHOTO':
+          let photos = _album.photos
+          photos = photos.filter(photo => photo._id != action.id)
+          _album.photos = photos
+          this.emit('CHANGE');
+          break;   
       }
     })
   }

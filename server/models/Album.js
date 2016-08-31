@@ -11,35 +11,39 @@ AlbumSchema.statics.RemoveMiddleware = function(req, res, next) {
 
   mongoose.model('Album').findById(id, (err, albums) => {
     if (err) return res.status(400).send(err)
-
+    console.log('middleware')
     let {photos}= albums
+
     let Photo = mongoose.model('Photo');
-    async.each(photos,
-      (photo, asyncCb) => {
-        
-        Photo.findById(photo, (err, ph) => {
-          if (err) return res.status(400).send(err)
-          if (ph.url.match('s3')) {
-            Photo.deleteLink(ph.url, (err, data) => {
-                if (err) return res.status(400).send(err)
-                Photo.findByIdAndRemove(ph._id, err => {
+   
+      async.each(photos,
+        (photo, asyncCb) => {
+          
+          Photo.findById(photo, (err, ph) => {
+            if (err) return res.status(400).send(err)
+            if (ph.url.match('s3')) {
+              Photo.deleteLink(ph.url, (err, data) => {
                   if (err) return res.status(400).send(err)
-                  asyncCb();
-                })
-            })
-          } else {
-            Photo.findByIdAndRemove(ph._id, err => {
-              if (err) return res.status(400).send(err)
-              asyncCb();
-            })
-          }
+                  Photo.findByIdAndRemove(ph._id, err => {
+                    if (err) return res.status(400).send(err)
+                    asyncCb();
+                  })
+              })
+            } else {
+              Photo.findByIdAndRemove(ph._id, err => {
+                if (err) return res.status(400).send(err)
+                asyncCb();
+              })
+            }
+          })
+        }, 
+        err => {
+          if (err) return res.status(400).send(err)
+          next();  
         })
-      }, 
-      err => {
-        if (err) return res.status(400).send(err)
-        next  
-      })
-  });
+
+    });
+
 }
 
 

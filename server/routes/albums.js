@@ -20,22 +20,23 @@ router.route('/:id')
     res.status(err ? 400 : 200).send(err || album);
   }).populate('photos')
 })
-.delete(Album.RemoveMiddleware, (req, res) => {
-  console.log('here')
-  Album.findByIdAndRemove(req.params.id, err => {
-    res.status(err ? 400 : 200).send(err);
-  })
-})
-.put((req, res) =>{
-  Album.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true}, (err, album) =>{
-    if(err){
-      return res.status(400).send(err);
-    }
-    Album.find({}, (err, albums) => {
-      res.status(err ? 400: 200).send(err || albums);
+  .delete(Album.RemoveMiddleware, (req, res) => {
+    console.log('here')
+    Album.findByIdAndRemove(req.params.id, err => {
+      res.status(err ? 400 : 200).send(err);
     })
-  });
-})
+  })
+
+  .put((req, res) =>{
+    Album.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true}, (err, album) =>{
+      if(err){
+        return res.status(400).send(err);
+      }
+      Album.find({}, (err, albums) => {
+        res.status(err ? 400: 200).send(err || albums);
+      })
+    });
+  })
 
 router.route('/:id/addPhoto/:photoId').put((req, res) => {
   Album.findById(req.params.id, (err, album) => {

@@ -21,7 +21,6 @@ export default class App extends Component {
   render() {
     return (
       <div className="container">
-        <FileUploader submitFile={this._submitFile}/>
         {this.props.children}
       </div>        
     )
