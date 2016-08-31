@@ -5,6 +5,7 @@ import AlbumActions from '../actions/AlbumActions';
 import AddAlbum from './AddAlbum'
 import {Link} from 'react-router';
 import {Button} from 'react-bootstrap';
+import DeleteAlbum from './DeleteAlbum'
 class ShowAllAlbums extends React.Component {
     constructor(props) {
         super(props);
@@ -35,9 +36,9 @@ class ShowAllAlbums extends React.Component {
 
         if (albums) {
           let list = albums.map((album, index)=> {
-            return <div key={album._id}> <Link to={`album/${album._id}`}>{album.name}</Link> 
-            <Button bsStyle="danger">Delete</Button>
-            <br/> </div>
+            return (<div key={album._id}> <Link to={`album/${album._id}`}>{album.name}</Link> 
+                  <DeleteAlbum />
+            <br/> </div>);
 
           })
           return (
