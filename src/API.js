@@ -43,6 +43,13 @@ const API = {
       .then(res => res.data)
       .then(photo => ServerActions.getPhoto(photo))
       .catch(console.error)
+  },
+  removePhoto(id, albumId) {
+    axios.delete(`/api/photos/${id}`)
+      .then(() => axios.get(`/api/albums/${albumId}`))
+      .then(res => res.data)
+      .then(album => ServerActions.getAlbum(album))
+      .catch(console.error)
   }
 }
 export default API;

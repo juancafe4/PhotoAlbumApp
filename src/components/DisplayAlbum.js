@@ -4,6 +4,8 @@ import AlbumStore from '../stores/AlbumStore';
 import AlbumActions from '../actions/AlbumActions';
 import {Row, Col, Thumbnail, Button} from 'react-bootstrap';
 import {Link} from 'react-router';
+
+import PhotoActions from '../actions/PhotoActions';
 class DisplayAlbum extends React.Component {
     
     constructor(props) {
@@ -14,6 +16,7 @@ class DisplayAlbum extends React.Component {
         }
         this.displayName = 'DisplayAlbum';
         this._onChange = this._onChange.bind(this);
+        this.deletePhoto = this.deletePhoto.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +32,10 @@ class DisplayAlbum extends React.Component {
       let album = AlbumStore.getAlbum()
       this.setState({album: album})
     }
+
+    deletePhoto(id) {
+      PhotoActions.removePhoto(id, this.state.album._id);
+    }
     render() {
 
         if (this.state.album) {
@@ -41,8 +48,9 @@ class DisplayAlbum extends React.Component {
                   <h3>Name: {photo.name}</h3>
                   <p>Date: {photo.date}</p>
                   <span>
-                    <Link to={`photo/${photo._id}`}>See Picture</Link>
+                    <Link to={`photo/${photo._id}`}> <Button bsStyle="primary">See Picture </Button></Link> 
                     <Button bsStyle="success">Edit</Button> 
+                    <Button onClick={this.deletePhoto.bind(null, photo._id)} bsStyle="danger">Delete</Button> 
                   </span>
                 </Thumbnail>
               </Col>

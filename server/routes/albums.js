@@ -20,7 +20,8 @@ router.route('/:id')
     res.status(err ? 400 : 200).send(err || album);
   }).populate('photos')
 })
-.delete((req, res) => {
+.delete(Album.RemoveMiddleware, (req, res) => {
+  console.log('here')
   Album.findByIdAndRemove(req.params.id, err => {
     res.status(err ? 400 : 200).send(err);
   })
